@@ -1259,7 +1259,7 @@ class BaseRequest(object):
         host = env.get('HTTP_X_FORWARDED_HOST') or env.get('HTTP_HOST')
         if not host:
             # HTTP 1.1 requires a Host-header. This is for HTTP/1.0 clients.
-            host = env.get('SERVER_NAME', '127.0.0.1')
+            host = env.get('SERVER_NAME', '0.0.0.0')
             port = env.get('SERVER_PORT')
             if port and port != ('80' if http == 'http' else '443'):
                 host += ':' + port
@@ -2727,7 +2727,7 @@ url       = make_default_app_wrapper('get_url')
 
 class ServerAdapter(object):
     quiet = False
-    def __init__(self, host='127.0.0.1', port=8080, **options):
+    def __init__(self, host='0.0.0.0', port=8080, **options):
         self.options = options
         self.host = host
         self.port = int(port)
@@ -3046,7 +3046,7 @@ def load_app(target):
         NORUN = nr_old
 
 _debug = debug
-def run(app=None, server='wsgiref', host='127.0.0.1', port=8080,
+def run(app=None, server='wsgiref', host='0.0.0.0', port=8080,
         interval=1, reloader=False, quiet=False, plugins=None,
         debug=None, **kargs):
     """ Start a server instance. This method blocks until the server terminates.
